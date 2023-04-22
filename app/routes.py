@@ -30,6 +30,32 @@ def handle_planets():
         })
     return jsonify(planets_response)
 
-def read_planet():
-    pass
+# if given a planet instance that doesn't exist,
+# return error message 404
+def read_planet(planet):
+    for planet in planets:
+        if planet not in planets:
+            return {
+                "error404" : "Planet not found"
+                }
+        return {
+            "id": planet.id,
+            "title": planet.title,
+            "description": planet.description
+        }
+
+# if given a planet_id instance that doesn't exist,
+# return error message 400
+def read_planet_by_id(planet_id):
+    planet_id = int(planet_id)
+    for planet in planets:
+        if planet_id == planet.id:
+            return {
+        "id": planet.id,
+        "title": planet.title,
+        "description": planet.description
+    }
+    return {
+            "error400" : "planet_id is invalid"
+            }
 
