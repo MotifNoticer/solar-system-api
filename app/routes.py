@@ -6,15 +6,15 @@ class Planet:
         self.name = name
         self.description = description
 
-#create a list of Planets
+#create a list of Planets instances
 planets = [
     Planet (1, "Mars", "We're still looking for water here"),
     Planet(9, "Saturn", "Maybe it's kind of yellow"),
     Planet (5, "Pluto", "Basically the forgotten middle child of Planets")
 ]
 
-# creates planet blueprint
-planets_bp = Blueprint("books", __name__, url_prefix="/planets")
+# creates planet blueprint (endpoint)
+planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
 
 @planets_bp.route("", methods=["GET"])
 
