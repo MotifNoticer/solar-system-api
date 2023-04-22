@@ -13,8 +13,8 @@ planets = [
     Planet (5, "Pluto", "Basically the forgotten middle child of Planets")
 ]
 
-# creates planet blueprint (endpoint)
-planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
+# creates planet blueprint
+planets_bp = Blueprint("books", __name__, url_prefix="/planets")
 
 @planets_bp.route("", methods=["GET"])
 
