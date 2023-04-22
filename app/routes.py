@@ -43,7 +43,8 @@ def read_planet(planet):
             "title": planet.title,
             "description": planet.description
         }
-
+        
+@planets_bp.route("/<planet_id>", methods=["GET"])
 # if given a planet_id instance that doesn't exist,
 # return error message 400
 def read_planet_by_id(planet_id):
