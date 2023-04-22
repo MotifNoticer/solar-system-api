@@ -6,7 +6,7 @@ class Planet:
         self.name = name
         self.description = description
 
-#create a list of Planets instances
+#create a list of Planets
 planets = [
     Planet (1, "Mars", "We're still looking for water here"),
     Planet(9, "Saturn", "Maybe it's kind of yellow"),
@@ -14,7 +14,7 @@ planets = [
 ]
 
 # creates planet blueprint
-planets_bp = Blueprint("books", __name__, url_prefix="/planets")
+planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
 
 @planets_bp.route("", methods=["GET"])
 
@@ -28,3 +28,7 @@ def handle_planets():
             "description": planet.description
         })
     return jsonify(planets_response)
+
+def read_planet():
+    pass
+
