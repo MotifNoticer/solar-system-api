@@ -18,7 +18,8 @@ planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
 
 @planets_bp.route("", methods=["GET"])
 
-#define the function to handle the planets
+# define the function to handle the planets
+# creates list of planets
 def handle_planets():
     planets_response = []
     for planet in planets:
