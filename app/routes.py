@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, abort, make_response
 
 class Planet:
     def __init__(self, id, name, description):
@@ -16,6 +16,7 @@ planets = [
 # creates planet blueprint
 planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
 
+# decorator to accept following inputs
 @planets_bp.route("", methods=["GET"])
 
 # define the function to handle the planets
@@ -44,7 +45,7 @@ def read_planet(planet):
             "description": planet.description
         }
         
-@planets_bp.route("/<planet_id>", methods=["GET"])
+@planet_bp.route("/<planet_id>", methods=["GET"])
 # if given a planet_id instance that doesn't exist,
 # return error message 400
 def read_planet_by_id(planet_id):
