@@ -16,6 +16,18 @@ planets = [
 # creates planet blueprint
 planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
 
+def validate_planet_id(planet_id):
+    try:
+        planet_id = int(planet_id)
+    except ValueError:
+        abort(make_response({"message": f"{planet_id} is not a valid data type. A {type(planet_id)} data type was provided. A valid integer must be provided."}),400)
+
+    else:
+        for planet in planets:
+            if planet.id == planet_id:
+                return planet
+    abort(make_response({"message:" : f"planet {planet_id} does not exist"},404))
+
 # decorator to accept following inputs
 @planets_bp.route("", methods=["GET"])
 
@@ -45,19 +57,16 @@ def read_planet(planet):
             "description": planet.description
         }
         
-@planet_bp.route("/<planet_id>", methods=["GET"])
+@planets_bp.route("/<planet_id>", methods=["GET"])
 # if given a planet_id instance that doesn't exist,
 # return error message 400
 def read_planet_by_id(planet_id):
-    planet_id = int(planet_id)
-    for planet in planets:
-        if planet_id == planet.id:
-            return {
+    planet = validate_planet_id(planet_id)
+
+    return {
         "id": planet.id,
         "title": planet.title,
         "description": planet.description
     }
-    return {
-            "error400" : "planet_id is invalid"
-            }
+
 
