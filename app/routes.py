@@ -30,7 +30,6 @@ def validate_planet_id(planet_id):
 
 # decorator to accept following inputs
 @planets_bp.route("", methods=["GET"])
-
 # define the function to handle the planets
 # creates list of planets
 def handle_planets():
@@ -43,24 +42,10 @@ def handle_planets():
         })
     return jsonify(planets_response)
 
+@planets_bp.route("/<planet_id>", methods=["GET"])
 # if given a planet instance that doesn't exist,
 # return error message 404
-def read_planet(planet):
-    for planet in planets:
-        if planet not in planets:
-            return {
-                "error404" : "Planet not found"
-                }
-        return {
-            "id": planet.id,
-            "title": planet.title,
-            "description": planet.description
-        }
-        
-@planets_bp.route("/<planet_id>", methods=["GET"])
-# if given a planet_id instance that doesn't exist,
-# return error message 400
-def read_planet_by_id(planet_id):
+def handle_planet(planet):
     planet = validate_planet_id(planet_id)
 
     return {
@@ -68,5 +53,6 @@ def read_planet_by_id(planet_id):
         "title": planet.title,
         "description": planet.description
     }
+
 
 
