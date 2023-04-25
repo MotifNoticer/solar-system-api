@@ -14,6 +14,7 @@ def validate_planet(planet_id):
     for planet in planets:
         if planet.id == planet_id:
             return planet
+        
     abort(make_response({"message:" : f"planet {planet_id} does not exist"},404))
 
 #create a list of Planets
@@ -50,7 +51,7 @@ def handle_planet(planet_id):
 
     return {
         "id": planet.id,
-        "title": planet.title,
+        "name": planet.name,
         "description": planet.description
     }
 
