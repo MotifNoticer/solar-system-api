@@ -4,4 +4,4 @@ class Planet(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     name = db.Column(db.String)
     description = db.Column(db.String)
-    moons = db.Column(db.Boolean)
+    moons = db.Column(db.Boolean, default=False, nullable=False)
