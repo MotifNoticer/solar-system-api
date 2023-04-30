@@ -58,8 +58,6 @@ planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
 #         "description": planet.description
 #     }
 
-
-
 @planets_bp.route("/<planet_id>", methods=["DELETE"])
 def delete_planet(planet_id):
     planet = validate_planet(planet_id)
