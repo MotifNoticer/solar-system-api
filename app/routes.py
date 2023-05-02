@@ -50,6 +50,14 @@ def read_one_planet(planet_id):
 @planets_bp.route("", methods=['GET'])
 def read_all_planets():
     planets_response = []
+    # name_query = request.args.get("name")
+    # moons_query = request.args.get("moons")
+
+    # if name_query:
+    #     planet = Planet.query.filter_by(name=name_query)
+    # elif moons_query:
+    #     planet = Planet.query.filter_by(moons=moons_query)
+    # else:
     planets = Planet.query.all()
     
     for planet in planets:
