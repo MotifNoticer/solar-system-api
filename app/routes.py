@@ -20,15 +20,18 @@ def validate_planet(planet_id):
     return planet
 
 def filter_by_queries():
+    # possible queries to filter by
     name_query = request.args.get("name")
     moons_query = request.args.get("moons")
     description_query = request.args.get("description")
-
+    
+    # creates a query list and remove all None values
     query_results=[name_query, moons_query, description_query]
     for query in query_results:
         if not query:
             query_results.remove(None)
 
+    # creates a list of planet_results to append all planet instances found to it
     planet_results=[]
     if query_results:
         for query in query_results:
@@ -36,6 +39,7 @@ def filter_by_queries():
                 planet_results.append(planet = Planet.query.filter_by(name=name_query))
             elif moons_query:
                 planet_results.append(planet = Planet.query.filter_by(moons=moons_query))
+        # creates a set to return a set of unique planet instances
         planets = set(planet_results)
     else:
         planets = Planet.query.all()
