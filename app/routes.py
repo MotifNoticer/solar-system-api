@@ -39,6 +39,8 @@ def filter_by_queries():
                 planet_results.append(planet = Planet.query.filter_by(name=name_query))
             elif moons_query:
                 planet_results.append(planet = Planet.query.filter_by(moons=moons_query))
+            elif description_query:
+                planet_results.append(planet=Planet.query.filter_by(description=description_query))
         # creates a set to return a set of unique planet instances
         planets = set(planet_results)
     else:
