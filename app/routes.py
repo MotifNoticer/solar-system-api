@@ -19,6 +19,29 @@ def validate_planet(planet_id):
 
     return planet
 
+def filter_by_queries():
+    name_query = request.args.get("name")
+    moons_query = request.args.get("moons")
+    description_query = request.args.get("description")
+
+    query_results=[name_query, moons_query, description_query]
+    for query in query_results:
+        if not query:
+            query_results.remove(None)
+
+    planet_results=[]
+    if query_results:
+        for query in query_results:
+            if name_query:
+                planet_results.append(planet = Planet.query.filter_by(name=name_query))
+            elif moons_query:
+                planet_results.append(planet = Planet.query.filter_by(moons=moons_query))
+        planets = set(planet_results)
+    else:
+        planets = Planet.query.all()
+    return planets
+    
+
 # CREATE NEW PLANET - POST
 @planets_bp.route("", methods=['POST'])
 def create_planet():
@@ -50,15 +73,8 @@ def read_one_planet(planet_id):
 @planets_bp.route("", methods=['GET'])
 def read_all_planets():
     planets_response = []
-    # name_query = request.args.get("name")
-    # moons_query = request.args.get("moons")
 
-    # if name_query:
-    #     planet = Planet.query.filter_by(name=name_query)
-    # elif moons_query:
-    #     planet = Planet.query.filter_by(moons=moons_query)
-    # else:
-    planets = Planet.query.all()
+    planets = filter_by_queries()
     
     for planet in planets:
         planets_response.append({
