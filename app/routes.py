@@ -20,17 +20,18 @@ def validate_planet(planet_id):
     return planet
 
 def filter_by_queries():
+    pass
     # possible queries to filter by
-    name_query = request.args.get("name")
-    moons_query = request.args.get("moons")
-    description_query = request.args.get("description")
+    # name_query = request.args.get("name")
+    # moons_query = request.args.get("moons")
+    # description_query = request.args.get("description")
     
-    if name_query:
-        planet = Planet.query.filter_by(name=name_query)
-    elif moons_query:
-        planet = Planet.query.filter_by(moons=moons_query)
-    elif description_query:
-        planet = Planet.query.filter_by(description=description_query)
+    # if name_query:
+    #     planet = Planet.query.filter_by(name=name_query)
+    # elif moons_query:
+    #     planet = Planet.query.filter_by(moons=moons_query)
+    # elif description_query:
+    #     planet = Planet.query.filter_by(description=description_query)
     
     ### FEATURE IN PROGRESS ###
     # # creates a query list and remove all None values
@@ -51,10 +52,10 @@ def filter_by_queries():
     #             planet_results.append(planet=Planet.query.filter_by(description=description_query))
     #     # creates a set to return a set of unique planet instances
     #     planets = set(planet_results)
-    else:
-        planets = Planet.query.all()
+    # else:
+    #     planets = Planet.query.all()
 
-    return planets
+    # return planets
     
 
 # CREATE NEW PLANET - POST
@@ -88,8 +89,21 @@ def read_one_planet(planet_id):
 @planets_bp.route("", methods=['GET'])
 def read_all_planets():
     planets_response = []
+    name_query = request.args.get("name")
+    moons_query = request.args.get("moons")
+    description_query = request.args.get("description")
 
-    planets = filter_by_queries()
+    if name_query:
+        planets = Planet.query.filter_by(name=name_query)
+    elif moons_query:
+        planets = Planet.query.filter_by(moons=moons_query)
+    elif description_query:
+        planets = Planet.query.filter_by(description=description_query)
+    else:
+        planets = Planet.query.all()
+    
+    # activate once 'filter_by_queries()' helper feature is complete
+    # planets = filter_by_queries()
     
     for planet in planets:
         planets_response.append({
