@@ -72,7 +72,7 @@ def create_planet():
     db.session.add(new_planet)
     db.session.commit()
     
-    return make_response(f"Yay Planet {new_planet.name} successfully created!", 201) 
+    return jsonify(f"Yay Planet {new_planet.name} successfully created!"), 201 
 
 # READ ONE PLANET BY ID - GET
 @planets_bp.route("/<planet_id>", methods=["GET"])
