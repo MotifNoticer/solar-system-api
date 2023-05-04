@@ -25,26 +25,35 @@ def filter_by_queries():
     moons_query = request.args.get("moons")
     description_query = request.args.get("description")
     
-    # creates a query list and remove all None values
-    query_results=[name_query, moons_query, description_query]
-    for query in query_results:
-        if not query:
-            query_results.remove(None)
+    if name_query:
+        planet = Planet.query.filter_by(name=name_query)
+    elif moons_query:
+        planet = Planet.query.filter_by(moons=moons_query)
+    elif description_query:
+        planet = Planet.query.filter_by(description=description_query)
+    
+    ### FEATURE IN PROGRESS ###
+    # # creates a query list and remove all None values
+    # query_results=[name_query, moons_query, description_query]
+    # for query in query_results:
+    #     if not query:
+    #         query_results.remove(None)
 
-    # creates a list of planet_results to append all planet instances found to it
-    planet_results=[]
-    if query_results:
-        for query in query_results:
-            if name_query:
-                planet_results.append(planet = Planet.query.filter_by(name=name_query))
-            elif moons_query:
-                planet_results.append(planet = Planet.query.filter_by(moons=moons_query))
-            elif description_query:
-                planet_results.append(planet=Planet.query.filter_by(description=description_query))
-        # creates a set to return a set of unique planet instances
-        planets = set(planet_results)
+    # # creates a list of planet_results to append all planet instances found to it
+    # planet_results=[]
+    # if query_results:
+    #     for query in query_results:
+    #         if name_query:
+    #             planet_results.append(planet = Planet.query.filter_by(name=name_query))
+    #         elif moons_query:
+    #             planet_results.append(planet = Planet.query.filter_by(moons=moons_query))
+    #         elif description_query:
+    #             planet_results.append(planet=Planet.query.filter_by(description=description_query))
+    #     # creates a set to return a set of unique planet instances
+    #     planets = set(planet_results)
     else:
         planets = Planet.query.all()
+
     return planets
     
 
