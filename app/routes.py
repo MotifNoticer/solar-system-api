@@ -73,7 +73,7 @@ def create_planet():
 # READ ONE PLANET BY ID - GET
 @planets_bp.route("/<planet_id>", methods=["GET"])
 def read_one_planet(planet_id):
-    planet = validate_model(planet_id)
+    planet = validate_model(Planet,planet_id)
     return planet.to_dict(), 200
 
 # READ ALL PLANETS - GET
@@ -104,7 +104,7 @@ def read_all_planets():
 # UPDATE ONE PLANET BY ID - PUT
 @planets_bp.route("/<planet_id>", methods=["PUT"])
 def update_planet(planet_id):
-    planet = validate_model(planet_id)
+    planet = validate_model(Planet, planet_id)
 
     request_body = request.get_json()
 
@@ -119,7 +119,7 @@ def update_planet(planet_id):
 # DELETE ONE PLANET BY ID - DELETE
 @planets_bp.route("/<planet_id>", methods=["DELETE"])
 def delete_planet(planet_id):
-    planet = validate_model(planet_id)
+    planet = validate_model(Planet, planet_id)
 
     db.session.delete(planet)
     db.session.commit()
