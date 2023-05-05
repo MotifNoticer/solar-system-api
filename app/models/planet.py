@@ -5,3 +5,20 @@ class Planet(db.Model):
     name = db.Column(db.String)
     description = db.Column(db.String)
     moons = db.Column(db.Integer)
+
+    @classmethod
+    def from_dict(cls,planet_data):
+        new_planet = Planet(
+            name = planet_data["name"],
+            description = planet_data["description"],
+            moons = planet_data["moons"]
+        )
+        return new_planet
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "moons": self.moons
+        }

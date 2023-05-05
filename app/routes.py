@@ -63,11 +63,7 @@ def filter_by_queries():
 def create_planet():
     request_body = request.get_json()
     
-    new_planet = Planet(
-        name = request_body['name'],
-        description = request_body['description'],
-        moons = request_body['moons']
-    )
+    new_planet = Planet.from_dict(request_body)
 
     db.session.add(new_planet)
     db.session.commit()
@@ -78,12 +74,7 @@ def create_planet():
 @planets_bp.route("/<planet_id>", methods=["GET"])
 def read_one_planet(planet_id):
     planet = validate_planet(planet_id)
-    return {
-            "id": planet.id,
-            "name": planet.name,
-            "description": planet.description,
-            "moons": planet.moons
-        }
+    return planet.to_dict(), 200
 
 # READ ALL PLANETS - GET
 @planets_bp.route("", methods=['GET'])
@@ -106,12 +97,7 @@ def read_all_planets():
     # planets = filter_by_queries()
     
     for planet in planets:
-        planets_response.append({
-            "id": planet.id,
-            "name": planet.name,
-            "description": planet.description,
-            "moons": planet.moons
-        })
+        planets_response.append(planet.to_dict())
         
     return jsonify(planets_response)
 
