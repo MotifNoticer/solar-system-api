@@ -1,9 +1,11 @@
 from flask import Blueprint, jsonify, abort, make_response, request
 from app import db
 from app.models.planet import Planet
+from app.models.moon import Moon
 
 # creates planet blueprint
 planets_bp = Blueprint("planets", __name__, url_prefix="/planets")
+moons_bp = Blueprint("moons", __name__, url_prefix = "/moons")
 
 # HELPER FUNCTION to validate planet by id
 def validate_model(cls,model_id):
@@ -81,7 +83,7 @@ def read_one_planet(planet_id):
 def read_all_planets():
     planets_response = []
     name_query = request.args.get("name")
-    moons_query = request.args.get("moons")
+    moons_query = request.args.get("num_moons")
     description_query = request.args.get("description")
 
     if name_query:
@@ -110,7 +112,7 @@ def update_planet(planet_id):
 
     planet.name = request_body["name"]
     planet.description = request_body["description"]
-    planet.moons = request_body["moons"]
+    planet.moons = request_body["num_moons"]
 
     db.session.commit()
 
@@ -125,3 +127,72 @@ def delete_planet(planet_id):
     db.session.commit()
 
     return make_response(f"planet #{planet.id} successfully deleted")
+
+### Moons ###
+# POST METHOD - create a moon
+@moons_bp.route("", methods=["POST"])
+def create_moon():
+    request_body = request.get_json()
+
+    new_moon = Moon(
+        name = request_body["name"]
+    )
+
+    db.session.add(new_moon)
+    db.session.commit()
+
+    return jsonify(f"Yayyyy Moon {new_moon.name} successfully created!"), 201
+
+# GET METHOD - read all moons
+@moons_bp.route("", methods = ["GET"])
+def read_all_moons():
+    moons_response = []
+    moons = Moon.query.all()
+
+    for moon in moons:
+        moons_response.append({"id": moon.id, "name": moon.name, "planet":moon.planet.name})
+    
+    return jsonify(moons_response)
+
+# GET METHOD - read moon by moon_id
+@moons_bp.route("/<moon_id>", methods = ["GET"])
+def read_moon_by_id(moon_id):
+    moon = validate_model(Moon, moon_id)
+
+    return {
+        "id": moon.id,
+        "name": moon.name,
+        "planet": moon.planet.name
+    }, 200
+
+# PUT METHOD
+@moons_bp.route("/<moon_id>", methods = ["PUT"])
+def update_moon(moon_id):
+    moon = validate_model(Moon, moon_id)
+
+    request_body = request.get_json()
+
+    moon.name = request_body["name"]
+    moon.planet.name = request_body["name"]
+    
+    db.session.commit()
+
+    return {
+        "id" : moon.id,
+        "name": moon.name,
+        "planet": moon.planet.name
+    }, 200
+
+# DELETE METHOD
+@moons_bp.route("/<moon_id>", methods = ["DELETE"])
+def delete_moon(moon_id):
+    moon = validate_model(Moon, moon_id)
+
+    db.session.delete(moon)
+    db.session.commit()
+
+    return make_response(f"Moon #{moon_id} successfully deleted")
+
+# POST METHOD - create a moon given a planet_id
+
+# GET METHOD - read all moons given a planet_id
